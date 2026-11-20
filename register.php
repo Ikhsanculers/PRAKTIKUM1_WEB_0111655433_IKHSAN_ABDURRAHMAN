@@ -2,7 +2,6 @@
 
 include "koneksi.php";
 
-$success = "";
 if (isset($_POST['daftar'])) {
     $nama_lengkap = $_POST['nama'];
     $email = $_POST['email'];
@@ -21,6 +20,29 @@ if (isset($_POST['daftar'])) {
 
     if (strlen($password) < 6 || ctype_digit($password || ctype_alpha($password))) {
         $error = "Kata sandi minimal 6 karakter dan wajib mengandung angka !";
+    }  else {
+        $query = "SELECT * FROM tb_pelanggan WHERE email=:email limit 1";
+        $komando = $koneksi -> prepare($query);
+        $komando -> execute([
+            ":email" => $email,
+        ]);
+
+        if ($komando -> rowCount() < 0) {
+            $error = "Email sudah digunakan, gunakan email lain !";
+        } else {
+            $query = "INSERT INTO tb_pelanggan (nama_lengkap, email, no_hp, password) VALUES (:nama_lengkap, :email, :no_hp, :password)";
+            $komando = $koneksi -> prepare($query);
+            $komando -> execute([
+                ":nama_lengkap" => $nama_lengkap,
+                ":email" => $email,
+                ":no_hp" => $no_hp,
+                ":password" => $passwordHash,
+            ]);
+        }
+        
+        header("location:login.php");
+        exit();
+        $success = "Pendaftaran berhasil, silakan login !";
     }
 }
 
@@ -160,9 +182,11 @@ if (isset($_POST['daftar'])) {
             <p>Formulir Pendaftaran Member Baru</p>
         </div>
 
+        <?php if(isset($success)) : ?>
         <div class="success-box">
-            <span>Pesan status pendaftaran ditampilkan di sini</span>
+            <span><?= $success ?></span>
         </div>
+        <?php endif; ?>
 
         <?php if(isset($error)) : ?>
         <div class="error-box">

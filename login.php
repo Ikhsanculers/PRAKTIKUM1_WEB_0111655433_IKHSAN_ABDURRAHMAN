@@ -1,3 +1,27 @@
+<?php
+
+include "koneksi.php";
+
+if (isset($_POST['masuk'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+    $query = "SELECT * FROM tb_pelanggan WHERE email=:email";
+    $komando = $koneksi -> prepare($query);
+    $komando -> execute([
+        ":email" => $email,
+    ]);
+
+    $hasil = $komando->fetch(PDO::FETCH_ASSOC);
+
+    if ($hasil) {
+        
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -121,12 +145,12 @@
         <form action="" method="POST">
             <div class="form-group">
                 <label>Email Terdaftar</label>
-                <input type="email" class="form-control" name="email" placeholder="nama@email.com" required>
+                <input type="email" class="form-control" name="email" placeholder="nama@email.com">
             </div>
 
             <div class="form-group">
                 <label>Kata Sandi</label>
-                <input type="password" class="form-control" name="password" placeholder="Masukkan kata sandi" required>
+                <input type="password" class="form-control" name="password" placeholder="Masukkan kata sandi">
             </div>
 
             <button type="submit" class="btn-submit" name="masuk">Masuk ke Akun</button>
