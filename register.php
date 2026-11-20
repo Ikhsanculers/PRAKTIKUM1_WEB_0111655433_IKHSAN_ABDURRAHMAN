@@ -1,3 +1,31 @@
+<?php
+
+include "koneksi.php";
+
+$success = "";
+if (isset($_POST['daftar'])) {
+    $nama_lengkap = $_POST['nama'];
+    $email = $_POST['email'];
+    $no_hp = $_POST['nohp'];
+    $password = $_POST['password'];
+    $ulangi_password = $_POST['ulangi_password'];
+    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+    if (empty($nama_lengkap) || empty($email) || empty($no_hp) || empty($password)) {
+        $error = "Semua field wajib diisi !";
+    }
+
+    if ($password != $ulangi_password) {
+        $error = "Konfirmasi kata sandi tidak cocok !";
+    }
+
+    if (strlen($password) < 6 || ctype_digit($password || ctype_alpha($password))) {
+        $error = "Kata sandi minimal 6 karakter dan wajib mengandung angka !";
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -41,7 +69,7 @@
             color: #795548;
             font-size: 14px;
         }
-        .alert-box {
+        .success-box {
             padding: 12px 16px;
             border-radius: 8px;
             font-size: 13px;
@@ -49,6 +77,17 @@
             background-color: #e8f5e9;
             color: #2e7d32;
             border: 1px solid #c8e6c9;
+            display: block;
+        }
+
+        .error-box {
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            background-color: #f5e8e8;
+            color: #ca0e0e;
+            border: 1px solid #e6c8c8;
             display: block;
         }
         .form-group {
@@ -121,34 +160,40 @@
             <p>Formulir Pendaftaran Member Baru</p>
         </div>
 
-        <div class="alert-box">
+        <div class="success-box">
             <span>Pesan status pendaftaran ditampilkan di sini</span>
         </div>
+
+        <?php if(isset($error)) : ?>
+        <div class="error-box">
+            <span><?= $error ?></span>
+        </div>
+        <?php endif; ?>
 
         <form action="" method="POST">
             <div class="form-group">
                 <label>Nama Lengkap</label>
-                <input type="text" class="form-control" name="nama" placeholder="Contoh: Budi Santoso" required>
+                <input type="text" class="form-control" name="nama" placeholder="Contoh: Budi Santoso">
             </div>
 
             <div class="form-group">
                 <label>Alamat Email</label>
-                <input type="email" class="form-control" name="email" placeholder="nama@email.com" required>
+                <input type="email" class="form-control" name="email" placeholder="nama@email.com">
             </div>
 
             <div class="form-group">
                 <label>Nomor WhatsApp / HP</label>
-                <input type="tel" class="form-control" name="nohp" placeholder="081234567890" required>
+                <input type="tel" class="form-control" name="nohp" placeholder="081234567890">
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label>Kata Sandi</label>
-                    <input type="password" class="form-control" name="password" placeholder="Minimal 6 karakter" required>
+                    <input type="password" class="form-control" name="password" placeholder="Minimal 6 karakter">
                 </div>
                 <div class="form-group">
                     <label>Ulangi Sandi</label>
-                    <input type="password" class="form-control" name="ulangi_password" placeholder="Ketik ulang kata sandi" required>
+                    <input type="password" class="form-control" name="ulangi_password" placeholder="Ketik ulang kata sandi">
                 </div>
             </div>
 
