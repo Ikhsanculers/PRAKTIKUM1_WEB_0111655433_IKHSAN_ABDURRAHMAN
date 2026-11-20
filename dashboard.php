@@ -1,8 +1,6 @@
 <?php
 include 'koneksi.php';
 
-
-
 if (!isset($_SESSION['tb_pelanggan'])) {
     header('Location: login.php');
     exit();
@@ -169,14 +167,14 @@ if (!isset($_SESSION['tb_pelanggan'])) {
             <h2>Kopi Nusantara</h2>
         </div>
         <div class="navbar-user">
-            <span>Masuk sebagai: <strong>Pelanggan Setia</strong> (pelanggan@email.com)</span>
+            <span>Masuk sebagai: <?= $_SESSION['nama_lengkap']; ?> <strong>Pelanggan Setia</strong> (<?= $_SESSION['email']; ?>)</span>
             <a href="logout.php" class="btn-logout">Keluar</a>
         </div>
     </nav>
 
     <div class="container">
         <div class="welcome-banner">
-            <h1>Selamat Datang Kembali, Nama Pelanggan!</h1>
+            <h1>Selamat Datang Kembali, <?= $_SESSION['nama_lengkap']; ?>!</h1>
             <p>Terima kasih telah menjadi bagian dari keluarga penikmat Kopi Nusantara.</p>
         </div>
 
@@ -188,7 +186,7 @@ if (!isset($_SESSION['tb_pelanggan'])) {
             </div>
             <div class="info-card">
                 <h4>Nomor Kontak Terdaftar</h4>
-                <div class="card-value">081234567890</div>
+                <div class="card-value"><?= $_SESSION['no_hp']; ?></div>
                 <p style="font-size: 12px; color: #8d6e63;">Digunakan untuk verifikasi penukaran promo kafe.</p>
             </div>
         </div>
