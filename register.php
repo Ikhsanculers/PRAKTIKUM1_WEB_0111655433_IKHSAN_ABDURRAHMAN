@@ -27,7 +27,7 @@ if (isset($_POST['daftar'])) {
             ":email" => $email,
         ]);
 
-        if ($komando -> rowCount() < 0) {
+        if ($komando -> rowCount() > 0) {
             $error = "Email sudah digunakan, gunakan email lain !";
         } else {
             $query = "INSERT INTO tb_pelanggan (nama_lengkap, email, no_hp, password) VALUES (:nama_lengkap, :email, :no_hp, :password)";
@@ -41,8 +41,9 @@ if (isset($_POST['daftar'])) {
         }
         
         header("location:login.php");
-        exit();
         $success = "Pendaftaran berhasil, silakan login !";
+        exit();
+        
     }
 }
 
@@ -107,9 +108,9 @@ if (isset($_POST['daftar'])) {
             border-radius: 8px;
             font-size: 13px;
             margin-bottom: 20px;
-            background-color: #f5e8e8;
-            color: #ca0e0e;
-            border: 1px solid #e6c8c8;
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
             display: block;
         }
         .form-group {

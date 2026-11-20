@@ -1,13 +1,14 @@
 <?php
+include 'koneksi.php';
 
-include "koneksi.php";
+
 
 if (!isset($_SESSION['tb_pelanggan'])) {
-    header("location:login.php");
+    header('Location: login.php');
     exit();
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="id">
